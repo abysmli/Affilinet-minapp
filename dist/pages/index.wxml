@@ -1,0 +1,153 @@
+
+    <view class="page">
+
+    		<view class="page__hd">
+    			  
+						
+		   <view class="weui-flex">
+		   	   <view bindtap="createNote" class="weui-flex__item operate_block">
+		   	   		<i class="icon iconfont icon-jiahao2fill"/>
+		   	   		<!--<image  mode="widthFix" src="http://7xuuaz.com1.z0.glb.clouddn.com/create.png" />-->
+			   </view>
+			    <view bindtap="searchNote" class="weui-flex__item operate_block">
+			    		<!--<image mode="widthFix" src="../images/search.png"/>-->
+			    		<i class="icon iconfont icon-sousuo-copy"/>
+
+			   </view>
+			    <view bindtap="scanCode" class="weui-flex__item operate_block">
+			    		<!--<image mode="widthFix" src="../images/scan.png"/>-->
+			    		<i class="icon iconfont icon-saoma"/>
+	
+			   </view>
+		  </view>
+		  <view class="weui-flex btnText">
+		   	   <view class="weui-flex__item operate_block">		   	   		
+		   	   		<text>新建</text>
+		   	   		  	
+			   </view>
+			    <view class="weui-flex__item operate_block">
+			    		
+			    		<text>搜索</text>
+			   </view>
+			    <view class="weui-flex__item operate_block">
+			    		
+			    		<text>扫码</text>
+			   </view>
+		  </view>
+		   <view class="divLine"/>
+		  </view>
+		 
+		  <view class="page__bd">
+		        <view class="weui-tab">
+		            <view class="weui-navbar">
+		                <block xmlns:wx="" wx:for-items="{{tabs}}" wx:key="{{index}}">
+		                    <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-navbar__item_on' : ''}}" bindtap="tabClick">
+		                        <view class="weui-navbar__title ">{{item}}</view>
+		                    </view>
+		                </block>
+		               <!-- <view class="weui-navbar__slider" style="transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>-->
+		            </view>
+		            <view class="weui-tab__panel">
+		                <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+		                		<view xmlns:wx="" wx:if="{{refresh}}" class="weui-loadmore">
+					            <view class="weui-loading"/>
+					            <view class="weui-loadmore__tips">正在刷新</view>
+					        </view>
+		                		<view wx:if="{{friendList.length<1}}" class="weui-loadmore weui-loadmore_line">
+					            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+					        </view>
+		                		<view class=" weui-cells_after-title">
+					            <view wx:for="{{friendList}}" wx:key="_id" class="weui-cell" bindtap="openNoteList" data-wepy-params-a="{{item._id}}" data-wepy-params-b="{{item.nickName}}">
+					                <view class="weui-cell__hd">
+					                    <image src="{{!!item.avatar?item.avatar:icon}}" style="margin-right: 5px;vertical-align: middle;width:45px; height: 45px;"/>
+					                </view>
+					                <view class="weui-cell__bd">{{item.nickName}}</view>
+					      
+					            </view>
+					        </view>
+					         <view wx:if="{{loadMore}}" class="weui-loadmore">
+					            <view class="weui-loading"/>
+					            <view class="weui-loadmore__tips">正在加载</view>
+					        </view>
+		                </view>
+		                <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+		                		<view wx:if="{{refresh}}" class="weui-loadmore">
+					            <view class="weui-loading"/>
+					            <view class="weui-loadmore__tips">正在刷新</view>
+					        </view>
+		               		<view wx:if="{{noteList.length<1}}" class="weui-loadmore weui-loadmore_line">
+					            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+					        </view>
+		                		<view class=" weui-cells_after-title">
+					            <view wx:for="{{noteList}}" wx:key="_id" class="weui-cell" bindtap="openNote" data-wepy-params-a="{{item._id}}">
+					                <view class="weui-cell__hd">
+					                    <image src="{{item.images.length>0?item.images[0]:icon}}" style="margin-right: 5px;vertical-align: middle;width:45px; height: 45px;"/>
+					                </view>
+					                <view class="weui-cell__bd">{{item.title}}</view>
+					                <view class="weui-cell__ft">
+					                	<view wx:if="{{item.productCode.price!=null}}" class="weui-cell__ft">{{item.productCode.price==0?"免费":item.productCode.price+item.productCode.currency}}</view>
+					         
+					                <i wx:if="{{item.state==20}}" class="icon iconfont icon-display-copy"/>
+					                <i wx:if="{{item.state==10}}" class="icon iconfont icon-buxianshi"/>
+					                </view>
+					            </view>
+					        </view>
+					        	<view wx:if="{{loadMore}}" class="weui-loadmore">
+					            <view class="weui-loading"/>
+					            <view class="weui-loadmore__tips">正在加载</view>
+					        </view>
+		                </view>
+		                <view class="weui-tab__content" hidden="{{activeIndex != 2}}">
+		                		<view wx:if="{{refresh}}" class="weui-loadmore">
+					            <view class="weui-loading"/>
+					            <view class="weui-loadmore__tips">正在刷新</view>
+					        </view>
+		                		<view wx:if="{{historyList.length<1}}" class="weui-loadmore weui-loadmore_line">
+					            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+					        </view>
+		                		<view class=" weui-cells_after-title">
+					            <view wx:for="{{historyList}}" wx:key="_id" class="weui-cell" bindtap="openNote" data-wepy-params-a="{{item._id}}">
+					                <view class="weui-cell__hd">
+					                    <image src="{{item.images.length>0?item.images[0]:icon}}" style="margin-right: 5px;vertical-align: middle;width:45px; height: 45px;"/>
+					                </view>
+					                <view class="weui-cell__bd">{{item.title}}</view>
+					                <view wx:if="{{item.productCode.price!=null}}" class="weui-cell__ft">{{item.productCode.price==0?"免费":item.productCode.price+item.productCode.currency}}</view>
+					            </view>
+					        </view>
+					         <view wx:if="{{loadMore}}" class="weui-loadmore">
+					            <view class="weui-loading"/>
+					            <view class="weui-loadmore__tips">正在加载</view>
+					        </view>
+		                </view>
+		                  <!--<view class="weui-footer">
+		       		 	
+				            <view class="weui-footer__links">
+				                <navigator  url="" class="weui-footer__link">逛人备忘</navigator>
+				            </view>
+				        </view> -->
+		            </view>
+		        </view>
+		 		
+		     
+		  </view>
+		   <view class="page__ft">
+	       <view class="weui-flex">
+	       		<view class="weui-flex__item">		   	   		
+		   	   		 <navigator url="shareCode" class="weui-form-preview__btn" hover-class="weui-form-preview__btn_active"><i class="icon iconfont icon-fenxiang"/><text>分享</text></navigator>
+			   </view>
+		   	   <view class="weui-flex__item">		   	   		
+		   	   		 <navigator url="noteList?userId=&noteListType=collectNote" class="weui-form-preview__btn" hover-class="weui-form-preview__btn_active"><i class="icon iconfont icon-collection-on-copy"/><text>我的收藏</text></navigator>
+			   </view>
+			   <view class="weui-flex__item">
+			   		<navigator url="" class="weui-form-preview__btn" hover-class="weui-form-preview__btn_active">
+			   			<contact-button size="20" session-from="shoppingnotes">
+						
+    			    		</contact-button>
+    			    		<text>客服</text>
+			   		</navigator>
+			    	
+			   </view>
+	  		</view>
+   		</view>
+		  
+    </view>

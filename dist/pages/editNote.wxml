@@ -1,0 +1,173 @@
+
+    <view class="page">
+		  <view class="page__bd">
+			 <view class="note-form">
+			     	
+
+		  	  <view class="weui-cells__title">标题(必填)</view>
+		        <view class="weui-cells weui-cells_after-title">
+		            <view class="weui-cell weui-cell_input">
+		                <view class="weui-cell__bd">
+		                    <input class="weui-input" bindblur="bindInput" id="title" value="{{noteForm.title}}" placeholder="请输入标题"/>
+		                </view>
+		            </view>
+		      </view>
+		  	
+		      <view class="weui-cells__title">正文</view>
+		        <view class="weui-cells weui-cells_after-title">
+		            <view class="weui-cell">
+		                <view class="weui-cell__bd">
+		                    <textarea maxlength="500" class="weui-textarea" bindblur="bindInput" id="content" value="{{noteForm.content}}" placeholder="请输入文本" style="height: 12em"/>
+		                    <view class="weui-textarea-counter">{{noteForm.content.length}}/500</view>
+		                </view>
+		            </view>
+		        </view>
+		        <view class="weui-cells__title">图片上传</view>
+			<view class="weui-uploader">
+               
+                <view class="weui-uploader__bd">
+                    <view class="weui-uploader__files " id="uploaderFiles">
+                        <block xmlns:wx="" wx:for-items="{{files}}" wx:key="{{index}}">
+                            <view class="weui-uploader__file">
+                                <image bindtap="previewImage" id="{{item}}" class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
+                               	<view bindtap="deleteImage" data-imgurl="{{item}}" class="deleteBtn"><i class="icon iconfont icon-shanchu"/></view> 
+                            </view>
+                        </block>
+                    </view>
+                    <view xmlns:wx="" wx:if="{{files.length<9}}" class="weui-uploader__input-box">
+                        <view class="weui-uploader__input" bindtap="chooseImage"/>
+                    </view>
+                </view>
+                 <view class="weui-uploader__ft">
+                    <view class="weui-uploader__info">{{files.length}}/9</view>
+                </view>
+            </view>
+		    		  <view class="weui-cells__title">标签</view>
+		        <view class="weui-cells weui-cells_after-title">
+		            <view class="weui-cell weui-cell_input">
+		                <view class="weui-cell__bd">
+		                    <input class="weui-input" bindblur="bindInput" id="tags" value="{{noteForm.tags}}" placeholder="多个标签用英文,分割"/>
+		                </view>
+		            </view>
+		      </view>
+				<view class="weui-cells__title">包装详情</view>
+		        <view class="weui-cells weui-cells_after-title">
+		            <view class="weui-cell weui-cell_input package-detatil">
+		                <view class="weui-cell__hd">
+		                    <view class="weui-label">长度</view>
+		                </view>
+		                <view class="weui-cell__bd">
+		                    <input bindblur="bindInput" id="length" value="{{noteForm.length}}" class="weui-input"/>
+		                </view>
+		                <view class="weui-cell__ft">
+		                    <view class="weui-vcode-btn">cm</view>
+		                </view>
+		            </view>
+		             <view class="weui-cell weui-cell_input package-detatil">
+		                <view class="weui-cell__hd">
+		                    <view class="weui-label">宽度</view>
+		                </view>
+		                <view class="weui-cell__bd">
+		                    <input bindblur="bindInput" id="width" value="{{noteForm.width}}" class="weui-input"/>
+		                </view>
+		                <view class="weui-cell__ft">
+		                    <view class="weui-vcode-btn">cm</view>
+		                </view>
+		            </view>
+		             <view class="weui-cell weui-cell_input package-detatil">
+		                <view class="weui-cell__hd">
+		                    <view class="weui-label">高度</view>
+		                </view>
+		                <view class="weui-cell__bd">
+		                    <input bindblur="bindInput" id="height" value="{{noteForm.height}}" class="weui-input"/>
+		                </view>
+		                <view class="weui-cell__ft">
+		                    <view class="weui-vcode-btn">cm</view>
+		                </view>
+		            </view>
+		             <view class="weui-cell weui-cell_input package-detatil">
+		                <view class="weui-cell__hd">
+		                    <view class="weui-label">重量</view>
+		                </view>
+		                <view class="weui-cell__bd">
+		                    <input bindblur="bindInput" id="weight" value="{{noteForm.weight}}" class="weui-input"/>
+		                </view>
+		                <view class="weui-cell__ft">
+		                    <view class="weui-vcode-btn">kg</view>
+		                </view>
+		            </view>
+		           
+		        </view>
+		        <view class="weui-cells__title">产品代码</view>
+		        <view class="weui-cells weui-cells_after-title">
+		            <view class="weui-cell weui-cell_input">
+		                <view class="weui-cell__hd">
+		                    <view class="weui-label">条码</view>
+		                </view>
+		                <view class="weui-cell__bd">
+		                    <input bindblur="bindInput" id="ean" value="{{noteForm.ean}}" class="weui-input"/>
+		                </view>
+		                <view class="weui-cell__ft">
+		                		<i bindtap="scanCode" class="icon iconfont icon-qr"/>
+		        
+		                </view>
+		            </view>
+		             <view class="weui-cell weui-cell_input">
+		                <view class="weui-cell__hd">
+		                    <view class="weui-label">ASIN</view>
+		                </view>
+		                <view class="weui-cell__bd">
+		                    <input bindblur="bindInput" id="asin" value="{{noteForm.asin}}" class="weui-input"/>
+		                </view>
+		            </view>
+		            <view class="weui-cell weui-cell_input">
+		                <view class="weui-cell__hd">
+		                    <view class="weui-label">货号</view>
+		                </view>
+		                <view class="weui-cell__bd">
+		                    <input bindblur="bindInput" id="styleId" value="{{noteForm.styleId}}" class="weui-input"/>
+		                </view>
+		            </view>
+		           
+		        </view>
+		         <view class="weui-cells__title">价格</view>
+		        <view class="weui-cells weui-cells_after-title">		    
+		            <view class="weui-cell weui-cell_input">
+		                <view class="weui-cell__bd">
+		                     <input class="weui-input" bindblur="bindInput" id="price" value="{{noteForm.price}}"/>
+		                </view>
+		                <view class="weui-cell__ft">
+		                		<picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+		                		 <view class="weui-vcode-btn">{{money[index]}}</view>
+		                		 </picker>
+		                </view>
+		            </view>
+		        </view>
+		        <button class="weui-btn" bindtap="chooseLocation" type="primary">获取位置</button>
+		     	<view class="recommend">
+		     		<text class="weui-cells__title">推荐加精</text>
+		     		<switch class="switch" checked bindchange="switchChange"/>   
+		     	</view>
+		     	
+		      
+		     	
+			 </view>
+		        
+		     
+		       
+		        
+
+		  </view>
+		<view class="page__ft">
+	       <view class="weui-flex">
+		   	   <view class="weui-flex__item">		   	   		
+		   	   		 <navigator url="" bindtap="saveNote" class="weui-form-preview__btn left-btn" hover-class="left-btn_active" data-wepy-params-a="10"><i class="icon iconfont icon-baocun"/><text>存草稿</text></navigator>
+			   </view>
+			   <view class="weui-flex__item">
+			   		 <navigator wx:if="{{editType=='createNote'||editType=='copyNote'||editType=='updateNote'||editType=='copyThirdNote'}}" url="" bindtap="saveNote" class="weui-form-preview__btn right-btn" hover-class="right-btn_active" data-wepy-params-a="20"><i class="icon iconfont icon-fabu"/><text>发布</text></navigator>
+			    		 
+			   </view>
+	  		</view>
+   		</view>
+
+    </view>

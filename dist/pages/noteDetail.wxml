@@ -1,0 +1,149 @@
+
+    <view class="page">
+		  <view class="page__bd">
+		        <view class="weui-tab">
+		            <view class="weui-navbar">
+		                <block xmlns:wx="" wx:for-items="{{tabs}}" wx:key="{{index}}">
+		                    <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+		                        <view class="weui-navbar__title">{{item}}</view>
+		                    </view>
+		                </block>
+		                <view xmlns:wx="" wx:if="{{type!='third'}}" class="weui-navbar__slider" style="transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"/>
+		            </view>
+		            <view class="weui-tab__panel">
+		                <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+		                		<swiper wx:if="{{noteDetail.images[0]!=null&&noteDetail.images.length>0}}" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+							  <block wx:for="{{noteDetail.images}}" wx:key="index">
+							    <swiper-item>
+							      <image bindtap="previewImage" data-imgurl="{{item}}" src="{{item}}" mode="aspectFill" class="slide-image"/>
+							    </swiper-item>
+							  </block>
+							</swiper>
+
+							
+
+		                		<view class="weui-article">
+					            <view class="weui-article__h1">{{noteDetail.title}}</view>
+					            <view class="divLine"/>
+					             <view class="userinfo" wx:if="{{type!='third'}}">
+					             	<view class="author" bindtap="openNoteList" data-wepy-params-a="{{noteDetail.author._id}}" data-wepy-params-b="{{noteDetail.author.nickName}}">
+					             		<image class="userinfo-avatar" src="{{noteDetail.author.avatar }}" background-size="cover"/>
+						           		 <text class="userinfo-nickname">{{ noteDetail.author.nickName }}</text>
+					             	</view>
+						            
+						            <text class="update-time">{{ noteDetail.modified}}</text>
+						            <text class="views">{{ noteDetail.views}}</text>
+						            <i class="icon iconfont icon-display-copy"/>
+						        </view>
+						        <view class="userinfo" wx:if="{{type!='third'}}">
+						        		<text class="note-tags" wx:key="{{item}}" wx:if="{{item!=''}}" wx:for="{{noteDetail.tags}}">{{item}}</text>
+						        </view>
+					            <view class="weui-article__section">
+					                <view class="weui-article__section">
+					                   
+					                    <view class="weui-article__p">
+					                        {{noteDetail.content}}
+					                    </view>
+					                </view>
+					               
+					            </view>
+					            <view class="weui-article__section" wx:if="{{type!='third'&&!!noteDetail.packageDetail&&!!noteDetail.packageDetail.length}}">
+					            		<view class="weui-article__h3">包装详情</view>
+					            		<view class="specis">
+					            			<view class="specis-item"> 
+					            				<text>长度:</text>
+					            			 	<text class="specis-value">{{noteDetail.packageDetail.length}}cm</text>
+					            			</view>
+					            			<view class="specis-item"> 
+					            				<text>宽度:</text>
+					            				 <text class="specis-value">{{noteDetail.packageDetail.width}}cm</text>
+					            			</view>
+					            			<view class="specis-item">
+					            				 <text>高度:</text>
+					            			 <text class="specis-value">{{noteDetail.packageDetail.height}}cm</text>
+					            				
+					            			</view>
+					            			<view class="specis-item">
+					            				<text>重量:</text>
+					            			 	<text class="specis-value">{{noteDetail.packageDetail.weight}}kg</text>
+					            			</view>
+					            			 
+					            			 
+					            		</view>
+					              
+					               
+					            </view>
+					             <button wx:if="{{noteDetail.productCode.price!=null&&type!='third'}}" class="weui-btn" type="primary">
+					             	<text class="price-hd">参考价格</text>
+					            		<text wx:if="{{noteDetail.productCode.price==0}}">免费</text>
+					            		
+					            			<text wx:if="{{noteDetail.productCode.price!=0}}" class="price-val">{{noteDetail.productCode.price}}</text>
+					            			<text wx:if="{{noteDetail.productCode.price!=0}}" class="price-val">{{noteDetail.productCode.currency}}</text>
+					         
+					            		
+					             </button>
+					             <button wx:if="{{!!noteDetail.location&&noteDetail.location[0]!=null}}" bindtap="openLocation" class="weui-btn" type="default">查看位置</button>
+					        </view>
+		                </view>
+		                <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+		                		 <view class="weui-panel">
+					            <view class="weui-panel__bd">
+					               <view wx:for="{{commentList}}" wx:key="{{item._id}}" class="weui-media-box weui-media-box_text">
+				                    <view class="weui-media-box__title weui-media-box__title_in-text">
+				                    		 <view class="userinfo" bindtap="openNoteList" data-wepy-params-a="{{item.author._id}}" data-wepy-params-b="{{item.author.nickName}}">
+								            <image class="userinfo-avatar" src="{{item.author.avatar }}" background-size="cover"/>
+								            <text class="userinfo-nickname">{{ item.author.nickName }}</text>
+								        </view>
+				                    </view>
+				                    <view class="weui-media-box__desc">{{item.content}}</view>
+				                    <view class="weui-media-box__info">
+				                        <view class="weui-media-box__info__meta">{{item.modified}}</view>
+				                    </view>
+				                </view>
+					            </view>
+					        </view>
+					         <view wx:if="{{activeIndex == 1}}" class="weui-panel comment-panel"> 
+					         	<textarea class="weui-textarea" bindinput="bindInput" id="comment" value="{{comment}}" placeholder="输入评论" style="height: 5.3em"/>
+		                    		<view class="weui-textarea-counter">{{comment.length}}/140</view>
+					         	<button class="weui-btn" bindtap="sendComment" type="primary">发表评论</button>
+					         </view>
+					        
+		                </view>
+		             <view class="weui-footer">
+			            <view class="weui-footer__links">
+			                <navigator bindtap="backIndex" url="" class="weui-footer__link">逛人备忘</navigator>
+			            </view>
+			           
+			        </view> 
+		            </view>
+		       		   
+		        </view>
+		 		
+		   
+		  </view>
+		  <view class="page__ft">
+	       <view wx:if="{{noteType=='self'}}" class="weui-flex">
+		   	   <view class="weui-flex__item">		   	   		
+		   	   		 <navigator url="editNote?editType=updateNote&noteId={{noteId}}" class="weui-form-preview__btn left-btn" hover-class="left-btn_active"><i class="icon iconfont icon-bianji"/><text>编辑</text></navigator>
+			   </view>
+			   <view class="weui-flex__item">
+			    		 <navigator bindtap="deleteNote" class="weui-form-preview__btn right-btn" hover-class="right-btn_active"><i class="icon iconfont icon-shanchu"/><text>删除</text></navigator>
+			   </view>
+	  		</view>
+	  		<view wx:if="{{noteType=='others'}}" class="weui-flex">
+		   	   <view wx:if="{{type!='third'}}" class="weui-flex__item">		   	   		
+		   	   		 <navigator open-type="redirect" url="editNote?editType=copyNote&noteId={{noteId}}" class="weui-form-preview__btn left-btn" hover-class="left-btn_active"><i class="icon iconfont icon-fuzhi"/><text>复制</text></navigator>
+			   </view>
+			   <view wx:if="{{type=='third'}}" class="weui-flex__item">		   	   		
+		   	   		 <navigator open-type="redirect" url="editNote?editType=copyThirdNote&noteData={{noteDetailStr}}" class="weui-form-preview__btn left-btn" hover-class="left-btn_active"><i class="icon iconfont icon-fuzhi"/><text>复制</text></navigator>
+			   </view>
+			   <view wx:if="{{!isCollect&&type!='third'}}" class="weui-flex__item">
+			    		 <navigator url="" bindtap="collectNote" class="weui-form-preview__btn right-btn" hover-class="right-btn_active"><i class="icon iconfont icon-xin-1"/><text>收藏</text></navigator>
+			   </view>
+			    <view wx:if="{{isCollect}}" class="weui-flex__item">
+			    		 <navigator url="" bindtap="cancelCollectNote" class="weui-form-preview__btn right-btn" hover-class="right-btn_active"><i class="icon iconfont icon-xin"/><text>取消收藏</text></navigator>
+			   </view>
+	  		</view>
+   		</view>
+		  
+    </view>
