@@ -3,7 +3,7 @@ export default{
 	//测试
 	// HostUrl:"https://march.yuansc.com",
 	//正式
-	HostUrl:"https://allhahaha.com/minapp",
+	HostUrl:"https://allhahaha.com",
 	eanCodeData:{
 	  "ok": true,
 	  "code": 0,
