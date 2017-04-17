@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
 	//测试
-	HostUrl: "https://march.yuansc.com",
+	// HostUrl:"https://march.yuansc.com",
 	//正式
-	//	HostUrl:"https://allhahaha.com",
+	HostUrl: "https://allhahaha.com/minapp",
 	eanCodeData: {
 		"ok": true,
 		"code": 0,

@@ -27,14 +27,14 @@
                
                 <view class="weui-uploader__bd">
                     <view class="weui-uploader__files " id="uploaderFiles">
-                        <block xmlns:wx="" wx:for-items="{{files}}" wx:key="{{index}}">
+                        <block wx:for-items="{{files}}" wx:key="{{index}}">
                             <view class="weui-uploader__file">
                                 <image bindtap="previewImage" id="{{item}}" class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
                                	<view bindtap="deleteImage" data-imgurl="{{item}}" class="deleteBtn"><i class="icon iconfont icon-shanchu"/></view> 
                             </view>
                         </block>
                     </view>
-                    <view xmlns:wx="" wx:if="{{files.length<9}}" class="weui-uploader__input-box">
+                    <view wx:if="{{files.length<9}}" class="weui-uploader__input-box">
                         <view class="weui-uploader__input" bindtap="chooseImage"/>
                     </view>
                 </view>

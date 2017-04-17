@@ -40,7 +40,7 @@
 		  <view class="page__bd">
 		        <view class="weui-tab">
 		            <view class="weui-navbar">
-		                <block xmlns:wx="" wx:for-items="{{tabs}}" wx:key="{{index}}">
+		                <block wx:for-items="{{tabs}}" wx:key="{{index}}">
 		                    <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-navbar__item_on' : ''}}" bindtap="tabClick">
 		                        <view class="weui-navbar__title ">{{item}}</view>
 		                    </view>
@@ -49,7 +49,7 @@
 		            </view>
 		            <view class="weui-tab__panel">
 		                <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
-		                		<view xmlns:wx="" wx:if="{{refresh}}" class="weui-loadmore">
+		                		<view wx:if="{{refresh}}" class="weui-loadmore">
 					            <view class="weui-loading"/>
 					            <view class="weui-loadmore__tips">正在刷新</view>
 					        </view>

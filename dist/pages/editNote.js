@@ -510,4 +510,4 @@ var EditNote = function (_wepy$page) {
 }(_wepy2.default.page);
 
 
-Page(require('./../npm/wepy/lib/wepy.js').default.$createPage(EditNote));
+Page(require('./../npm/wepy/lib/wepy.js').default.$createPage(EditNote , 'pages/editNote'));

@@ -86,6 +86,7 @@ var _initialiseProps = function _initialiseProps() {
         "navigationBarTitleText": "test"
     };
     this.$props = { "counter2": { "v-bind:num.sync": "mynum" } };
+    this.$events = {};
     this.components = {
         panel: _panel2.default,
         counter1: _counter2.default,

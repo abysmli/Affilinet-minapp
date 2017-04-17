@@ -414,4 +414,4 @@ var NoteDetail = function (_wepy$page) {
 }(_wepy2.default.page);
 
 
-Page(require('./../npm/wepy/lib/wepy.js').default.$createPage(NoteDetail));
+Page(require('./../npm/wepy/lib/wepy.js').default.$createPage(NoteDetail , 'pages/noteDetail'));

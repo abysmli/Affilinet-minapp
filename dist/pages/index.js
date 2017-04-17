@@ -319,4 +319,4 @@ var Index = function (_wepy$page) {
 }(_wepy2.default.page);
 
 
-Page(require('./../npm/wepy/lib/wepy.js').default.$createPage(Index));
+Page(require('./../npm/wepy/lib/wepy.js').default.$createPage(Index , 'pages/index'));

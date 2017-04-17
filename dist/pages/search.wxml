@@ -7,7 +7,7 @@
                 <view class="weui-search-bar__box">
                     <icon class="weui-icon-search_in-box" type="search" size="14"/>
                     <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping"/>
-                    <view class="weui-icon-clear" xmlns:wx="" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+                    <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
                         <icon type="clear" size="14"/>
                     </view>
                 </view>
@@ -22,7 +22,7 @@
             	
             <!--<view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>-->
         </view>
-        <view class="weui-cells searchbar-result" xmlns:wx="" wx:if="{{searchDone}}">
+        <view class="weui-cells searchbar-result" wx:if="{{searchDone}}">
             <navigator url="" class="weui-cell" hover-class="weui-cell_active">
                 <view class="weui-cell__bd">
                     <view wx:if="{{noteList.length<1}}" class="weui-loadmore weui-loadmore_line">

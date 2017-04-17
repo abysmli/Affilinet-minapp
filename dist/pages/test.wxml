@@ -91,7 +91,7 @@
     <view>
         <button bindtap="$list$add" size="mini">添加列表</button>
     </view>
-      <block xmlns:wx="" wx:for-items="{{$list$list}}" wx:for-index="index" wx:for-item="item">
+      <block wx:for-items="{{$list$list}}" wx:for-index="index" wx:for-item="item">
             <view bindtap="$list$tap" class="mylist">
                 <text>{{item.id}}</text>: {{item.title}}
             </view>
