@@ -387,8 +387,8 @@ var _class = function () {
                 var _loop = function _loop(_c) {
                     _c = current.$com[_c];
                     queue.push(_c);
-                    var fn = _c.events ? _c.events[evtName] : undefined;
-                    if (typeof fn === 'function') {
+                    var fn = getEventsFn(_c, evtName);
+                    if (fn) {
                         _c.$apply(function () {
                             fn.apply(_c, args.concat($evt));
                         });
@@ -422,32 +422,25 @@ var _class = function () {
             if (this.$parent.$events && this.$parent.$events[this.$name]) {
                 var method = this.$parent.$events[this.$name]['v-on:' + evtName];
                 if (method && this.$parent.methods) {
-                    var _ret4 = function () {
-                        var fn = _this6.$parent.methods[method];
-                        if (typeof fn === 'function') {
-                            _this6.$parent.$apply(function () {
-                                fn.apply(_this6.$parent, args.concat($evt));
-                            });
-                            return {
-                                v: void 0
-                            };
-                        } else {
-                            throw new Error('Invalid method from emit, component is ' + _this6.$parent.$name + ', method is ' + method + '. Make sure you defined it already.\n');
-                        }
-                    }();
-
-                    if ((typeof _ret4 === 'undefined' ? 'undefined' : _typeof(_ret4)) === "object") return _ret4.v;
+                    var _fn = this.$parent.methods[method];
+                    if (typeof _fn === 'function') {
+                        this.$parent.$apply(function () {
+                            _fn.apply(_this6.$parent, args.concat($evt));
+                        });
+                        return;
+                    } else {
+                        throw new Error('Invalid method from emit, component is ' + this.$parent.$name + ', method is ' + method + '. Make sure you defined it already.\n');
+                    }
                 }
             }
 
             var _loop2 = function _loop2() {
-                var fn = com.events ? com.events[evtName] : undefined;
-                if (typeof fn === 'function') {
-                    com.$apply(function () {
-                        fn.apply(com, args.concat($evt));
-                    });
-                }
-                com = com.$parent;
+                var comContext = com;
+                var fn = getEventsFn(comContext, evtName);
+                fn && comContext.$apply(function () {
+                    fn.apply(comContext, args.concat($evt));
+                });
+                com = comContext.$parent;
             };
 
             while (com && com.$isComponent !== undefined && $evt.active) {
@@ -481,6 +474,7 @@ var _class = function () {
                 for (k in originData) {
                     if (!_util2.default.$isEqual(this[k], originData[k])) {
                         readyToSet[this.$prefix + k] = this[k];
+                        this.data[k] = this[k];
                         originData[k] = _util2.default.$copy(this[k], true);
                         if (this.$mappingProps[k]) {
                             Object.keys(this.$mappingProps[k]).forEach(function (changed) {
@@ -503,8 +497,8 @@ var _class = function () {
                 if (Object.keys(readyToSet).length) {
                     if (this.computed) {
                         for (k in this.computed) {
-                            var _fn = this.computed[k],
-                                val = _fn.call(this);
+                            var _fn2 = this.computed[k],
+                                val = _fn2.call(this);
                             if (!_util2.default.$isEqual(this[k], val)) {
                                 readyToSet[this.$prefix + k] = val;
                                 this[k] = _util2.default.$copy(val, true);
@@ -522,4 +516,20 @@ var _class = function () {
 }();
 
 exports.default = _class;
+
+
+function getEventsFn(comContext, evtName) {
+    var fn = comContext.events ? comContext.events[evtName] : undefined;
+    var typeFn = typeof fn === 'undefined' ? 'undefined' : _typeof(fn);
+    var fnFn = void 0;
+    if (typeFn === 'string') {
+        var method = comContext.methods && comContext.methods[fn];
+        if (typeof method === 'function') {
+            fnFn = method;
+        }
+    } else if (typeFn === 'function') {
+        fnFn = fn;
+    }
+    return fnFn;
+}
 //# sourceMappingURL=component.js.map

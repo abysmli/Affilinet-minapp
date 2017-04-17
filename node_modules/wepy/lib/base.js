@@ -123,12 +123,13 @@ exports.default = {
         app.$wxapp = getApp();
         return config;
     },
-    $createPage: function $createPage(pageClass) {
+    $createPage: function $createPage(pageClass, pagePath) {
+        var self = this;
         var config = {},
             k = void 0;
         var page = new pageClass();
+        if (pagePath) this.$instance.$pages[pagePath] = page;
         page.initMixins();
-        var self = this;
         config.$page = page;
 
         config.onLoad = function () {
@@ -139,6 +140,19 @@ exports.default = {
             page.$name = pageClass.name || 'unnamed';
             page.init(this, self.$instance, self.$instance);
 
+            var prevPage = self.$instance.__prevPage__;
+            var secParams = {};
+            secParams.from = prevPage ? prevPage : undefined;
+
+            if (prevPage && Object.keys(prevPage.$preloadData).length > 0) {
+                secParams.preload = prevPage.$preloadData;
+                prevPage.$preloadData = {};
+            }
+            if (page.$prefetchData && Object.keys(page.$prefetchData).length > 0) {
+                secParams.prefetch = page.$prefetchData;
+                page.$prefetchData = {};
+            }
+            args.push(secParams);
             page.onLoad && page.onLoad.apply(page, args);
 
             page.$mixins.forEach(function (mix) {
@@ -152,6 +166,8 @@ exports.default = {
             for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
                 args[_key3] = arguments[_key3];
             }
+
+            self.$instance.__prevPage__ = page;
 
             page.onShow && page.onShow.apply(page, args);
 
